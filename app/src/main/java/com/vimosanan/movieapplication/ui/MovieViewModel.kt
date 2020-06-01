@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.vimosanan.movieapplication.service.model.Movie
 import com.vimosanan.movieapplication.service.repository.MovieRepository
 import com.vimosanan.movieapplication.util.Result
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,17 +23,23 @@ class MovieViewModel @Inject constructor(private val repo: MovieRepository) : Vi
 
     fun search(searchedQuery: String, type: String) {
         viewModelScope.launch {
-            _movies.postValue(Result.Loading)
-            val result = repo.getMovieListSearch(searchedQuery, type)
+            with(Dispatchers.IO) {
+                _movies.postValue(Result.Loading)
+                val result = repo.getMovieListSearch(searchedQuery, type)
 
-            _movies.postValue(result)
+                _movies.postValue(result)
+            }
         }
     }
 
     fun getMovieDetail(movieId: String) {
         viewModelScope.launch {
-            _movie.value = Result.Loading
-            _movie.postValue(repo.getMovieDetails(movieId))
+            with(Dispatchers.IO){
+                _movie.postValue(Result.Loading)
+                val result = repo.getMovieDetails(movieId)
+
+                _movie.postValue(result)
+            }
         }
     }
 }
