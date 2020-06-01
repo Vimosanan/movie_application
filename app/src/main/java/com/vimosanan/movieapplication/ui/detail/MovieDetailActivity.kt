@@ -3,14 +3,13 @@ package com.vimosanan.movieapplication.ui.detail
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.vimosanan.movieapplication.R
-import com.vimosanan.movieapplication.app.MovieApplication
-import com.vimosanan.movieapplication.app.default_rating
-import com.vimosanan.movieapplication.app.default_text
-import com.vimosanan.movieapplication.app.default_time
+import com.vimosanan.movieapplication.app.*
 import com.vimosanan.movieapplication.databinding.ActivityDashboardBinding
 import com.vimosanan.movieapplication.databinding.ActivityMovieDetailBinding
 import com.vimosanan.movieapplication.service.model.Movie
@@ -27,6 +26,8 @@ class MovieDetailActivity : AppCompatActivity() {
     private lateinit var movieViewModel: MovieViewModel
     private lateinit var binding: ActivityMovieDetailBinding
 
+    private lateinit var movieId: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val appComponent = (applicationContext as MovieApplication).appComponent
         appComponent.inject(this)
@@ -40,7 +41,9 @@ class MovieDetailActivity : AppCompatActivity() {
             viewModelFactory
         ).get(MovieViewModel::class.java)
 
-        movieViewModel.getMovieDetail("tt0033317")
+        movieId = intent.getStringExtra(MOVIE_ID)
+
+        movieViewModel.getMovieDetail(movieId)
         initObservers()
     }
 
@@ -49,7 +52,6 @@ class MovieDetailActivity : AppCompatActivity() {
             when (it) {
                 is Result.Loading -> showProgress()
                 is Result.Success -> {
-                    hideProgress()
                     val movie = it.data
                     updateView(movie)
                 }
@@ -90,6 +92,8 @@ class MovieDetailActivity : AppCompatActivity() {
         binding.txtViewDirector.text = movie.director ?: default_text
         binding.txtViewWriters.text = movie.writers ?: default_text
         binding.txtViewActors.text = movie.actors ?: default_text
+
+        hideProgress()
     }
 
     private fun convertMinToHrs(str: String): String {
@@ -106,14 +110,14 @@ class MovieDetailActivity : AppCompatActivity() {
     }
 
     private fun updateError(exception: Exception) {
-
+        Toast.makeText(this, exception.message!!, Toast.LENGTH_LONG).show()
     }
 
     private fun showProgress() {
-
+        binding.progressLayout.constraint.visibility = View.VISIBLE
     }
 
     private fun hideProgress() {
-
+        binding.progressLayout.constraint.visibility = View.GONE
     }
 }

@@ -242,4 +242,11 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+    <include
+        android:id="@+id/progressLayout"
+        layout="@layout/in_progress_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,8 +32,6 @@ class MovieViewModel @Inject constructor(private val repo: MovieRepository) : Vi
         viewModelScope.launch {
             _movie.value = Result.Loading
             _movie.postValue(repo.getMovieDetails(movieId))
-
         }
     }
-
 }

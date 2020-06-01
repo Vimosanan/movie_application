@@ -4,10 +4,15 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.view.WindowManager
 import android.widget.LinearLayout
+import android.widget.Toast
+import androidx.core.view.isGone
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vimosanan.movieapplication.app.MOVIE_ID
 import com.vimosanan.movieapplication.app.MovieApplication
@@ -45,7 +50,7 @@ class DashboardActivity : AppCompatActivity(), MovieListAdapter.Interaction {
         adapterMovies = MovieListAdapter(this)
 
         //init recycler view and set adapter
-        val layoutManagerCategory = LinearLayoutManager(this, LinearLayout.VERTICAL,false)
+        val layoutManagerCategory = GridLayoutManager(this, 2)
         binding.recyclerView.layoutManager = layoutManagerCategory
         binding.recyclerView.adapter = adapterMovies
 
@@ -59,7 +64,8 @@ class DashboardActivity : AppCompatActivity(), MovieListAdapter.Interaction {
             mDividerItemDecoration.setDrawable(it)
         }*/
 
-        movieViewModel.search("Captain", type = "movie")
+
+        movieViewModel.search("movie-list", type = "movie")
 
         initObservers()
 
@@ -71,22 +77,44 @@ class DashboardActivity : AppCompatActivity(), MovieListAdapter.Interaction {
                 is Result.Loading -> showProgress()
                 is Result.Success -> {
                     hideProgress()
-                    adapterMovies.submitList(it.data)
+                    if(it.data != null) {
+                        adapterMovies.submitList(it.data)
+                    } else {
+                        updateError("No result found for the query...!")
+                    }
                 }
                 is Result.Error -> {
                     hideProgress()
+                    updateError(it.exception.message!!)
                 }
             }
 
         })
+
+        binding.btnSearch.setOnClickListener {
+            this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN) //hide the keyboard
+
+            val searchQuery = binding.edtTxtSearch.text.toString().trim()
+            if(searchQuery.isNotEmpty() && searchQuery.isNotBlank()) {
+                movieViewModel.search(searchQuery, type = "movie")
+            } else {
+                updateError("search query cannot be empty!")
+            }
+        }
+    }
+
+    private fun updateError(error: String) {
+        Toast.makeText(this, error, Toast.LENGTH_LONG).show()
     }
 
     private fun showProgress() {
-
+        binding.animationView.playAnimation()
+        binding.animationView.visibility = View.VISIBLE
     }
 
     private fun hideProgress() {
-
+        binding.animationView.pauseAnimation()
+        binding.animationView.visibility = View.GONE
     }
 
     override fun onItemSelected(position: Int, movie: Movie) {

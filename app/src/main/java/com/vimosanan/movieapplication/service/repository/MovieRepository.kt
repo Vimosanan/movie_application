@@ -1,6 +1,7 @@
 package com.vimosanan.movieapplication.service.repository
 
 import com.vimosanan.movieapplication.app.API_KEY
+import com.vimosanan.movieapplication.app.IS_CONNECTED
 import com.vimosanan.movieapplication.service.ApiInterface
 import com.vimosanan.movieapplication.service.model.Movie
 import com.vimosanan.movieapplication.util.Result
@@ -10,6 +11,9 @@ import kotlin.Exception
 class MovieRepository @Inject constructor(private val api: ApiInterface) {
 
     suspend fun getMovieListSearch(searchQuery: String, type: String): Result<List<Movie>> {
+        if(!IS_CONNECTED)
+            return Result.Error(Exception("Network is not connected..!"))
+
         val response = api.getSearchResults(
             API_KEY,
             searchQuery,
@@ -25,7 +29,10 @@ class MovieRepository @Inject constructor(private val api: ApiInterface) {
     }
 
     suspend fun getMovieDetails(movieId: String): Result<Movie> {
+        if(!IS_CONNECTED)
+            return Result.Error(Exception("Network is not connected..!"))
         val response = api.getMovieDetail(API_KEY, movieId)
+
 
         return if (response.isSuccessful) {
             val movie = response.body()
