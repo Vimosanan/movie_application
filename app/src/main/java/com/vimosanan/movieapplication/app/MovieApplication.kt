@@ -2,8 +2,8 @@ package com.vimosanan.movieapplication.app
 
 import android.app.Application
 import com.vimosanan.movieapplication.dagger.AppModule
-import com.vimosanan.testapplication.dagger.AppComponent
-import com.vimosanan.testapplication.dagger.DaggerAppComponent
+import com.vimosanan.movieapplication.dagger.AppComponent
+import com.vimosanan.movieapplication.dagger.DaggerAppComponent
 
 class MovieApplication : Application() {
 

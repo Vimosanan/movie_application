@@ -14,25 +14,29 @@ import com.google.gson.annotations.SerializedName
 
 data class Movie(
     @SerializedName("imdbID")
-    val id: Int,
+    val id: String,
     @SerializedName("Title")
-    val title: String,
+    val title: String?,
     @SerializedName("Year")
-    val year: Int,
+    val year: Int?,
     @SerializedName("Type")
-    val type: String,
+    val type: String?,
     @SerializedName("Poster")
-    val poster: String,
+    val imageUrl: String?,
     @SerializedName("Runtime")
-    val duration: String,
+    val duration: String?,
     @SerializedName("Director")
-    val director: String,
+    val director: String?,
     @SerializedName("Writer")
-    val writers: String,
+    val writers: String?,
     @SerializedName("Actors")
-    val actors: String,
+    val actors: String?,
     @SerializedName("Plot")
-    val detail: String
+    val detail: String?,
+    @SerializedName("imdbRating")
+    val rating: String?,
+    @SerializedName("Genre")
+    val categories: String?
 
 )
 /*

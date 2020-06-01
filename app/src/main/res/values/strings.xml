@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">Movie Application</string>
+
+    <string name="app.detail.category.title">Categories: </string>
+    <string name="app.detail.synopsis.title">Synopsis: </string>
+    <string name="app.detail.director.title">Director: </string>
+    <string name="app.detail.writers.title">Writers: </string>
+    <string name="app.detail.actors.title">Actors: </string>
+    <string name="app.detail.image.content.title">movie image</string>
+
+
+
+
+    <string name="app.detail.test.title">Captain Marvel</string>
+    <string name="app.detail.test.year">2019</string>
+    <string name="app.detail.test.duration">2h 0m</string>
+    <string name="app.detail.test.rating">8.1</string>
+    <string name="app.detail.test.categories">Action, Adventure, Fantasy, Sci-Fi</string>
+    <string name="app.detail.test.director">Anna Boden, Ryan Fleck</string>
+    <string name="app.detail.test.writer">Anna Boden (screenplay by), Ryan Fleck (screenplay by), Geneva Robertson-Dworet (screenplay by), Nicole Perlman (story by), Meg LeFauve (story by), Anna Boden (story by), Ryan Fleck (story by), Geneva Robertson-Dworet (story by)</string>
+    <string name="app.detail.test.actors">Brie Larson, Samuel L. Jackson, Ben Mendelsohn, Jude Law</string>
+
+
 </resources>

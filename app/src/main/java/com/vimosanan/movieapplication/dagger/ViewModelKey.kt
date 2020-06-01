@@ -1,4 +1,4 @@
-package com.vimosanan.testapplication.dagger
+package com.vimosanan.movieapplication.dagger
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey
