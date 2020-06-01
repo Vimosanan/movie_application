@@ -1,19 +1,18 @@
 package com.vimosanan.movieapplication.ui.dashboard
 
-import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import android.widget.LinearLayout
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.core.view.isGone
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.vimosanan.movieapplication.R
 import com.vimosanan.movieapplication.app.MOVIE_ID
 import com.vimosanan.movieapplication.app.MovieApplication
 import com.vimosanan.movieapplication.databinding.ActivityDashboardBinding
@@ -24,6 +23,7 @@ import com.vimosanan.movieapplication.ui.detail.MovieDetailActivity
 import com.vimosanan.movieapplication.util.Result
 import javax.inject.Inject
 
+
 class DashboardActivity : AppCompatActivity(), MovieListAdapter.Interaction {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -32,7 +32,9 @@ class DashboardActivity : AppCompatActivity(), MovieListAdapter.Interaction {
     private lateinit var binding: ActivityDashboardBinding
     private lateinit var adapterMovies: MovieListAdapter
 
-    @SuppressLint("WrongConstant")
+    private var searchedQuery = "Captain"
+    private var searchingQuery = "Captain"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val appComponent = (applicationContext as MovieApplication).appComponent
         appComponent.inject(this)
@@ -54,18 +56,7 @@ class DashboardActivity : AppCompatActivity(), MovieListAdapter.Interaction {
         binding.recyclerView.layoutManager = layoutManagerCategory
         binding.recyclerView.adapter = adapterMovies
 
-        //decorate the recycler view by adding a line between each element
-        val mDividerItemDecoration = DividerItemDecoration(
-            binding.recyclerView.context,
-            layoutManagerCategory.orientation
-        )
-
-        /*ContextCompat.getDrawable(this, R.drawable.divider_line_pink)?.let {
-            mDividerItemDecoration.setDrawable(it)
-        }*/
-
-
-        movieViewModel.search("movie-list", type = "movie")
+        movieViewModel.search(searchedQuery, type = "movie")
 
         initObservers()
 
@@ -78,6 +69,8 @@ class DashboardActivity : AppCompatActivity(), MovieListAdapter.Interaction {
                 is Result.Success -> {
                     hideProgress()
                     if(it.data != null) {
+                        searchedQuery = searchingQuery
+                        binding.txtInfo.text = getString(R.string.app_dashboard_info, searchedQuery)
                         adapterMovies.submitList(it.data)
                     } else {
                         updateError("No result found for the query...!")
@@ -92,11 +85,11 @@ class DashboardActivity : AppCompatActivity(), MovieListAdapter.Interaction {
         })
 
         binding.btnSearch.setOnClickListener {
-            this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN) //hide the keyboard
+            hideKeyboard(this)//hide the keyboard
 
-            val searchQuery = binding.edtTxtSearch.text.toString().trim()
-            if(searchQuery.isNotEmpty() && searchQuery.isNotBlank()) {
-                movieViewModel.search(searchQuery, type = "movie")
+            searchingQuery = binding.edtTxtSearch.text.toString().trim()
+            if(searchingQuery.isNotEmpty() && searchingQuery.isNotBlank()) {
+                movieViewModel.search(searchingQuery, type = "movie")
             } else {
                 updateError("search query cannot be empty!")
             }
@@ -128,4 +121,15 @@ class DashboardActivity : AppCompatActivity(), MovieListAdapter.Interaction {
     companion object {
         const val REQUEST_CODE_MOVIE = 900
     }
+}
+
+
+fun hideKeyboard(activity: Activity) {
+    val imm: InputMethodManager =
+        activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    var view = activity.currentFocus
+    if (view == null) {
+        view = View(activity)
+    }
+    imm.hideSoftInputFromWindow(view.windowToken, 0)
 }

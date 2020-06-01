@@ -10,12 +10,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.vimosanan.movieapplication.R
 import com.vimosanan.movieapplication.app.*
-import com.vimosanan.movieapplication.databinding.ActivityDashboardBinding
 import com.vimosanan.movieapplication.databinding.ActivityMovieDetailBinding
 import com.vimosanan.movieapplication.service.model.Movie
 import com.vimosanan.movieapplication.ui.MovieViewModel
 import com.vimosanan.movieapplication.util.Result
-import kotlinx.android.synthetic.main.activity_movie_detail.*
 import java.lang.NumberFormatException
 import javax.inject.Inject
 

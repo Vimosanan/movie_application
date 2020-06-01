@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Movie Application</string>
 
+    <string name="app.dashboard.title">Movie List</string>
+    <string name="app.dashboard.info">Showing searched result for: %1$s</string>
+    <string name="app.dashboard.edtText.type.hint">Type here ...</string>
+    <string name="app.dashboard.button.search">Search</string>
+
     <string name="app.detail.category.title">Categories: </string>
     <string name="app.detail.synopsis.title">Synopsis: </string>
     <string name="app.detail.director.title">Director: </string>
