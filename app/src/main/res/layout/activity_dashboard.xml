@@ -45,7 +45,9 @@
         app:layout_constraintBottom_toTopOf="@+id/edtTxtSearch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtInfo" />
+        app:layout_constraintTop_toBottomOf="@+id/txtInfo"
+        tools:itemCount="3"
+        tools:listitem="@layout/card_view_movie_item"/>
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animation_view"

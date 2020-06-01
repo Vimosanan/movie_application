@@ -22,7 +22,8 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/test_movie" />
+            app:srcCompat="@drawable/test_movie_sample"
+            tools:src="@drawable/test_movie_sample"/>
 
         <TextView
             android:id="@+id/txtViewMovieName"

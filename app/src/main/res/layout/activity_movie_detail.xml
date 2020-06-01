@@ -30,7 +30,8 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@string/app.detail.image.content.title" />
+                android:contentDescription="@string/app.detail.image.content.title"
+                tools:src="@drawable/test_movie_sample"/>
 
             <View
                 android:layout_width="0dp"
