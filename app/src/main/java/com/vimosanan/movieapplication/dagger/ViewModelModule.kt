@@ -6,7 +6,6 @@ import dagger.Binds
 import dagger.Module
 import javax.inject.Singleton
 
-@Singleton
 @Module
 abstract class ViewModelModule {
 
